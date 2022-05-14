@@ -1,6 +1,10 @@
 package org.sosylab;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import org.sosylab.model.Game;
 import org.sosylab.model.Grid;
 
 /**
@@ -9,7 +13,7 @@ import org.sosylab.model.Grid;
  */
 class Shell {
 
-  private static final String PROMPT = "gol";
+  private static final String PROMPT = "gol> ";
   private static final String ERROR = "Error! ";
 
   private static final String HELP = """
@@ -34,10 +38,97 @@ class Shell {
    * @throws IOException thrown when reading from stdin fails
    */
   void run() throws IOException {
-    // TODO: add code here
+    BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+    execute(stdin);
   }
 
-  // TODO: add code here
+  private void execute(BufferedReader stdin) throws IOException {
+    while (true) {
+      System.out.print(PROMPT);
+      String input = stdin.readLine();
 
+      if (input == null) {
+        break;
+      }
+
+      String[] tokens = input.trim().split("\\s+");
+      String command = tokens[0].toUpperCase();
+      char commandChar = command.charAt(0);
+
+      switch (commandChar) {
+        case 'N':
+          handleCommandNew(tokens);
+          break;
+        case 'P':
+          handleCommandPrint(tokens);
+          break;
+        case 'C':
+          handleCommandClear(tokens);
+          break;
+        case 'H':
+          System.out.println(HELP);
+          break;
+        case 'Q':
+          return;
+      }
+
+    }
+  }
+
+  private void handleCommandNew(String[] tokens){
+    if(tokens.length > 3) {
+      System.out.println(ERROR + "Too many arguments for command \"NEW\"");
+      return;
+    }
+    if(tokens.length < 3) {
+      System.out.println(ERROR + "Missing argument(s) for command \"NEW\"");
+      return;
+    }
+
+    int rows;
+    int cols;
+    try {
+      rows = Integer.parseInt(tokens[1]);
+      cols = Integer.parseInt(tokens[2]);
+    }
+    catch (NumberFormatException e) {
+      System.out.println(ERROR + "Arguments of the \"NEW\" command must be numbers!");
+      return;
+    }
+    if(rows <=0 || cols <= 0) {
+      System.out.println(ERROR + "Number of rows or columns must be greater than 0!");
+      return;
+    }
+
+    game = new Game(rows, cols);
+    System.out.println(game.toString()); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+  }
+
+  private void handleCommandPrint(String[] tokens){
+    if(tokens.length > 1) {
+      System.out.println(ERROR + "Too many arguments for command \"PRINT\"");
+      return;
+    }
+
+    if(game == null) {
+      System.out.println(ERROR + "No active game!");
+      return;
+    }
+    System.out.println(game.toString());
+  }
+
+  private void handleCommandClear(String[] tokens){
+    if(tokens.length > 1) {
+      System.out.println(ERROR + "Too many arguments for command \"CLEAR\"");
+      return;
+    }
+
+    if(game == null) {
+      System.out.println(ERROR + "No active game!");
+      return;
+    }
+
+    game.clear();
+  }
 }
 
