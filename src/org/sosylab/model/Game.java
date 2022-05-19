@@ -23,9 +23,10 @@ public class Game implements Grid {
   // TODO: add instance variables
   private int generation;
 
-  private Cell[][] field;
-  private Map<Integer, List<Cell>> neighborsField;
-  private Map<Integer, State> states;
+  private final Cell[][] field;
+  private final Map<Integer, List<Cell>> neighborsField;
+  private final Map<Integer, State> states;
+  private final Set<Cell> population;
 
 
   /**
@@ -39,6 +40,7 @@ public class Game implements Grid {
     this.field = new Cell[rows][cols];
     this.neighborsField = new HashMap<>();
     this.states = new HashMap<>();
+    this.population = new HashSet<>();
     initializeFields();
   }
 
@@ -78,6 +80,7 @@ public class Game implements Grid {
       throw new IllegalArgumentException("Number of column and row may not be negative");
     }
     states.put(field[row][col].hashCode(), State.ALIVE);
+    population.add(new Cell(col, row));
   }
 
   @Override
@@ -90,6 +93,7 @@ public class Game implements Grid {
       throw new IllegalArgumentException("Number of column and row may not be negative");
     }
     states.put(field[row][col].hashCode(), State.DEAD);
+    population.remove(new Cell(col, row));
   }
 
   @Override
@@ -108,7 +112,9 @@ public class Game implements Grid {
   }
 
   @Override
+
   public Collection<Cell> getPopulation() {
+     /*
     List<Cell> population = new ArrayList<>();
     for (int row = 0; row < field.length; row++) {
       for (int column = 0; column < field[0].length; column++) {
@@ -117,6 +123,8 @@ public class Game implements Grid {
         }
       }
     }
+    return population;
+    */
     return population;
   }
 
@@ -148,7 +156,8 @@ public class Game implements Grid {
 
   private Set<Cell> createCellsToRecalculate() {
     Set<Cell> cellsToRecalculate = new HashSet<>();
-    List<Cell> population = new ArrayList<>(getPopulation());
+    // List<Cell> population = new ArrayList<>(getPopulation());
+
     for (Cell cell : population) {
       cellsToRecalculate.addAll(calculateNeighbors(cell));
     }
@@ -162,7 +171,7 @@ public class Game implements Grid {
       if (isCellAlive(cell.getColumn(), cell.getRow()) && (aliveNeighbors < STAY_ALIVE_MIN_NEIGHBORS
           || aliveNeighbors > STAY_ALIVE_MAX_NEIGHBORS)) {
         setCellDead(cell.getColumn(), cell.getRow());
-      } if (!isCellAlive(cell.getColumn(), cell.getRow()) && aliveNeighbors == STAY_ALIVE_MAX_NEIGHBORS) {
+      } if (!isCellAlive(cell.getColumn(), cell.getRow()) && aliveNeighbors == NEWBORN_NEIGHBORS) {
           setCellAlive(cell.getColumn(), cell.getRow());
       }
     }
