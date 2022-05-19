@@ -1,5 +1,6 @@
 package org.sosylab.model;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,26 +11,29 @@ public class Cell {
   /**
    * The x-coordinate of the cel.
    */
-  private final int row;
+  private final int column;
 
   /**
    * The y-coordinate of the cell.
    */
-  private final int column;
+  private final int row;
+
+  private final int HASHFACTOR = 5000;
+
 
   /**
    * Constructs a new cell.
    *
-   * @param row    The x-coordinate (row of cell).
-   * @param column The y-coordinate (column of cell).
+   * @param column The x-coordinate (column of cell).
+   * @param row    The y-coordinate (row of cell).
    */
-  public Cell(int row, int column) {
-    if (row < 0 || column < 0) {
+  public Cell(int column, int row) {
+    if (column < 0 || row < 0) {
       throw new IllegalArgumentException("Cell must not have negative coordinates");
     }
 
-    this.row = row;
     this.column = column;
+    this.row = row;
   }
 
   /**
@@ -37,8 +41,8 @@ public class Cell {
    *
    * @return The x-coordinate.
    */
-  public int getRow() {
-    return row;
+  public int getColumn() {
+    return column;
   }
 
   /**
@@ -46,13 +50,14 @@ public class Cell {
    *
    * @return The y-coordinate.
    */
-  public int getColumn() {
-    return column;
+  public int getRow() {
+    return row;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(row, column);
+    //return Objects.hash(column, row); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    return HASHFACTOR * row + column;
   }
 
   @Override
@@ -64,13 +69,12 @@ public class Cell {
       return false;
     }
     Cell cell = (Cell) other;
-    return row == cell.row && column == cell.column;
+    return column == cell.column && row == cell.row;
   }
 
   @Override
   public String toString() {
-    return String.format("<%s, %s>", row, column);
+    return String.format("<%s, %s>", column, row);
   }
 
 }
-
