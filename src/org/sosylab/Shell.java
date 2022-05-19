@@ -187,7 +187,6 @@ class Shell {
       return;
     }
     game.setCellAlive(col, row);
-    //System.out.println(game); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   }
 
   private void handleCommandDead(String[] tokens) {
@@ -219,7 +218,6 @@ class Shell {
       return;
     }
     game.setCellDead(col, row);
-    System.out.println(game); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   }
 
   private void handleCommandGenerate(String[] tokens) {
@@ -259,9 +257,7 @@ class Shell {
       displayError("No active game!");
       return;
     }
-
     game.clear();
-    System.out.println(game); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   }
 
   private void handleCommandResize(String[] tokens) {
