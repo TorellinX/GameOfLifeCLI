@@ -59,6 +59,7 @@ public class Game implements Grid {
   @Override
   public boolean isCellAlive(int col, int row) {
     if (col >= this.getColumns() || row >= this.getRows()) {
+      System.out.println("ERROR: col " + col + ", row " + row);  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       throw new IllegalArgumentException(
           "Parameters for column and row may not exceed the maximum number of columns and rows");
     }
@@ -94,31 +95,32 @@ public class Game implements Grid {
 
   @Override
   public void resize(int newCols, int newRows) {
-    Cell[][] newField = new Cell[newRows][newCols];
     int oldCols = getColumns();
     int oldRows = getRows();
+
     allNeighbors.clear();
-    for (int row = 0; row < newRows; row++) {
-      for (int col = 0; col < newCols; col++) {
-        newField[row][col] = new Cell(col, row);
-        allNeighbors.put(newField[row][col].hashCode(), determineNeighbors(newField[row][col]));
-      }
-    }
     if(newCols < getColumns()){
-      for (int row = newRows; row < oldRows - 1; row++) {
-        for (int col = 0; col < oldCols - 1; col++) {
+      for (int row = newRows; row < oldRows; row++) {
+        for (int col = 0; col < oldCols; col++) {
           population.remove(field[row][col]);
         }
       }
     }
     if(newRows < field.length){
-      for (int row = 0; row < oldRows - 1; row++) {
-        for (int col = newCols; col < oldCols - 1; col++) {
+      for (int row = 0; row < oldRows; row++) {
+        for (int col = newCols; col < oldCols; col++) {
           population.remove(field[row][col]);
         }
       }
     }
-    field = newField.clone();
+
+    field = new Cell[newRows][newCols];
+    for (int row = 0; row < newRows; row++) {
+      for (int col = 0; col < newCols; col++) {
+        field[row][col] = new Cell(col, row);
+        allNeighbors.put(field[row][col].hashCode(), determineNeighbors(field[row][col]));
+      }
+    }
   }
 
   @Override
@@ -184,6 +186,13 @@ public class Game implements Grid {
   }
 
   private int countAliveNeighbors(Cell cell){
+    if (cell.getColumn() >= this.getColumns() || cell.getRow() >= this.getRows()) {
+      throw new IllegalArgumentException(
+          "Parameters for column and row may not exceed the maximum number of columns and rows");
+    }
+    if (cell.getColumn() < 0 || cell.getRow() < 0) {
+      throw new IllegalArgumentException("Number of column and row may not be negative");
+    }
     List<Cell> neighbors = allNeighbors.get(cell.hashCode());
     int aliveNeighborsCounter = 0;
     if (neighbors == null){
@@ -220,9 +229,13 @@ public class Game implements Grid {
     return stringBuilder.toString();
   }
 
-  private ArrayList<Cell> determineNeighbors(Cell cell) {     //  какой класс?
+  private ArrayList<Cell> determineNeighbors(Cell cell) {
     int row = cell.getRow();
     int column = cell.getColumn();
+    if (column >= this.getColumns() || row >= this.getRows()) {
+      throw new IllegalArgumentException(
+          "Parameters for column and row may not exceed the maximum number of columns and rows");
+    }
     ArrayList<Cell> neighbors = new ArrayList<>();    // может быть в итоге пустым!!!!!!!!!
     if (column != 0) {
       neighbors.add(new Cell(column - 1, row));
