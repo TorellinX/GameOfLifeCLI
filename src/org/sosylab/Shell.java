@@ -120,7 +120,7 @@ class Shell {
    *
    * @param token the string-token to be checked.
    * @return {@link Command} containing either the matched token or {@link Command#UNKNOWN}
-   * otherwise.
+   *         otherwise.
    */
   private Command parseCommand(String token) {
     Command result = Command.UNKNOWN;
@@ -362,10 +362,9 @@ class Shell {
       return;
     }
     if (shape.getColumns() > game.getColumns() || shape.getRows() < shape.getRows()) {
-      displayError(
-          "The size of the shape may not exceed the size of the game field. \nThe shape \""
-              + shapeName.substring(0, 1).toUpperCase() + shapeName.substring(1)
-              + "\" requires min. " + shape.getColumns() + "x" + shape.getRows() + " field.");
+      displayError("The size of the shape may not exceed the size of the game field. \nThe shape \""
+          + shapeName.substring(0, 1).toUpperCase() + shapeName.substring(1) + "\" requires min. "
+          + shape.getColumns() + "x" + shape.getRows() + " field.");
       return;
     }
     game = new Game(game.getColumns(), game.getRows(), shape);
@@ -398,8 +397,8 @@ class Shell {
    * The commands available to the user on a shell.
    */
   private enum Command {
-    NEW("NEW"), ALIVE("ALIVE"), DEAD("DEAD"), GENERATE("GENERATE"), PRINT("PRINT"),
-    CLEAR("CLEAR"), RESIZE("RESIZE"), SHAPE("SHAPE"), HELP("HELP"), QUIT("QUIT"), UNKNOWN;
+    NEW("NEW"), ALIVE("ALIVE"), DEAD("DEAD"), GENERATE("GENERATE"), PRINT("PRINT"), CLEAR(
+        "CLEAR"), RESIZE("RESIZE"), SHAPE("SHAPE"), HELP("HELP"), QUIT("QUIT"), UNKNOWN;
 
     private final String name;
 

@@ -51,8 +51,8 @@ public class Cell {
 
   @Override
   public int hashCode() {
-    int HASHFACTOR = 5000;
-    return HASHFACTOR * row + column;
+    int hashfactor = 5000;
+    return hashfactor * row + column;
   }
 
   @Override

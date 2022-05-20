@@ -35,7 +35,7 @@ public class Game implements Grid {
    */
   public Game(int columns, int rows) {
     if (columns <= 0 || rows <= 0) {
-      throw new IllegalArgumentException("Number of column and row may not be negative");
+      throw new IllegalArgumentException("Number of columns and rows must be positive");
     }
     this.generation = 0;
     this.field = new Cell[rows][columns];
