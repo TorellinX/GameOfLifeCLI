@@ -77,6 +77,6 @@ public class Shape {
    * @return the alive cells of the shape
    */
   public Set<Cell> getShapePopulation() {
-    return shapePopulation;
+    return new HashSet<>(shapePopulation);
   }
 }

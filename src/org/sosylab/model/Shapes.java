@@ -67,7 +67,8 @@ public class Shapes {
   }
 
   /**
-   * Get a list of available shapes to shown when an incorrect argument was entered for the command SHAPE.
+   * Get a list of available shapes to shown when an incorrect argument was entered for the command
+   * SHAPE.
    *
    * @return a string with a list of available shapes
    */

@@ -135,10 +135,10 @@ public class Game implements Grid {
    * Count alive neighbors of the specified cell.
    *
    * @param cell the cell whose neighbors need to be counted
-   * @throws IllegalArgumentException if number of columns and rows is negative or greater than
-   *                                  the field size
+   * @throws IllegalArgumentException if number of columns and rows is negative or greater than the
+   *                                  field size
    */
-  private int countAliveNeighbors(Cell cell) throws IllegalArgumentException{
+  private int countAliveNeighbors(Cell cell) throws IllegalArgumentException {
     if (cell.getColumn() >= this.getColumns() || cell.getRow() >= this.getRows()) {
       throw new IllegalArgumentException(
           "Parameters for column and row may not exceed the maximum number of columns and rows");
@@ -166,7 +166,7 @@ public class Game implements Grid {
    * @return neighbors of the specified cell
    * @throws IllegalArgumentException if number of columns and rows greater than the field size
    */
-  private ArrayList<Cell> getNeighbors(Cell cell) throws IllegalArgumentException{
+  private ArrayList<Cell> getNeighbors(Cell cell) throws IllegalArgumentException {
     int row = cell.getRow();
     int column = cell.getColumn();
     if (column >= this.getColumns() || row >= this.getRows()) {
@@ -203,7 +203,7 @@ public class Game implements Grid {
   }
 
   @Override
-  public boolean isCellAlive(int col, int row) throws IllegalArgumentException{
+  public boolean isCellAlive(int col, int row) throws IllegalArgumentException {
     if (col >= this.getColumns() || row >= this.getRows()) {
       throw new IllegalArgumentException(
           "Parameters for column and row may not exceed the maximum number of columns and rows");
@@ -215,7 +215,7 @@ public class Game implements Grid {
   }
 
   @Override
-  public void setCellAlive(int col, int row) throws IllegalArgumentException{
+  public void setCellAlive(int col, int row) throws IllegalArgumentException {
     if (col >= this.getColumns() || row >= this.getRows()) {
       throw new IllegalArgumentException(
           "Parameters for column and row may not exceed the maximum number of columns and rows");
@@ -227,7 +227,7 @@ public class Game implements Grid {
   }
 
   @Override
-  public void setCellDead(int col, int row) throws IllegalArgumentException{
+  public void setCellDead(int col, int row) throws IllegalArgumentException {
     if (col >= this.getColumns() || row >= this.getRows()) {
       throw new IllegalArgumentException(
           "Parameters for column and row may not exceed the maximum number of columns and rows");
@@ -280,7 +280,7 @@ public class Game implements Grid {
 
   @Override
   public Collection<Cell> getPopulation() {
-    return population;
+    return new HashSet<>(population);
   }
 
   @Override
