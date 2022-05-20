@@ -1,7 +1,5 @@
 package org.sosylab.model;
 
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A two dimensional coordinate within a cell grid.
@@ -17,9 +15,6 @@ public class Cell {
    * The y-coordinate of the cell.
    */
   private final int row;
-
-  private final int HASHFACTOR = 5000;
-
 
   /**
    * Constructs a new cell.
@@ -56,7 +51,7 @@ public class Cell {
 
   @Override
   public int hashCode() {
-    //return Objects.hash(column, row); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    int HASHFACTOR = 5000;
     return HASHFACTOR * row + column;
   }
 
@@ -76,5 +71,4 @@ public class Cell {
   public String toString() {
     return String.format("<%s, %s>", column, row);
   }
-
 }

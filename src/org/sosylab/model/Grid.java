@@ -3,8 +3,8 @@ package org.sosylab.model;
 import java.util.Collection;
 
 /**
- * Interface between GameBoard and Game. More accurately, for Game of Life this is an
- * interface between the grid of cells and the user interface.
+ * Interface between GameBoard and Game. More accurately, for Game of Life this is an interface
+ * between the grid of cells and the user interface.
  */
 public interface Grid {
 
@@ -20,16 +20,16 @@ public interface Grid {
   /**
    * Sets a cell alive.
    *
-   * @param col   x-position.
-   * @param row   y-position.
+   * @param col x-position.
+   * @param row y-position.
    */
   void setCellAlive(int col, int row);
 
   /**
    * Puts a cell into a dead state.
    *
-   * @param col   x-position.
-   * @param row   y-position.
+   * @param col x-position.
+   * @param row y-position.
    */
   void setCellDead(int col, int row);
 
