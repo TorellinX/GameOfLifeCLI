@@ -18,41 +18,41 @@ public class GridTest {
 
   private static final int WORLD_TOTAL_COLUMNS = 5;
 
-  Grid newWorld(int row, int col) {
-    return new Game(row, col);
+  Grid newWorld(int col, int row) {
+    return new Game(col, row);
   }
 
   private Grid newWorld() {
-    return newWorld(WORLD_TOTAL_ROWS, WORLD_TOTAL_COLUMNS);
+    return newWorld(WORLD_TOTAL_COLUMNS, WORLD_TOTAL_ROWS);
   }
 
   private Grid newWorld(Set<Cell> cells) {
     Grid world = newWorld();
 
     for (Cell cell : cells) {
-      world.setCellAlive(cell.getRow(), cell.getColumn());
+      world.setCellAlive(cell.getColumn(), cell.getRow());
     }
 
     return world;
   }
 
   @Test
-  public void newWorld_whenColumnIsZero_throwsException() {
+  public void newWorld_whenColIsZero_throwsException() {
     try {
-      newWorld(WORLD_TOTAL_ROWS, 0);
+      newWorld(0, WORLD_TOTAL_ROWS);
       fail("Implementation of Grid may not be instantiated with zero columns");
     } catch (IllegalArgumentException e) {
-      assertEquals("Number of rows and columns must be positive", e.getMessage());
+      assertEquals("Number of columns and rows must be positive", e.getMessage());
     }
   }
 
   @Test
   public void newWorld_whenRowIsZero_throwsException() {
     try {
-      newWorld(0, WORLD_TOTAL_COLUMNS);
+      newWorld(WORLD_TOTAL_COLUMNS, 0);
       fail("Implementation of Grid may not be instantiated with zero rows");
     } catch (IllegalArgumentException e) {
-      assertEquals("Number of rows and columns must be positive", e.getMessage());
+      assertEquals("Number of columns and rows must be positive", e.getMessage());
     }
   }
 
@@ -63,45 +63,67 @@ public class GridTest {
   }
 
   @Test
-  public void isAlive_whenRowIsNegative_throwsException() {
-    try {
-      newWorld().isCellAlive(-1, 0);
-      fail("Parameter for row is negative");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Number of row and column may not be negative", e.getMessage());
-    }
-  }
-
-  @Test
-  public void isAlive_whenRowIsTooLarge_throwsException() {
-    try {
-      newWorld().isCellAlive(WORLD_TOTAL_ROWS, 0);
-      fail("Parameter for row exceeds the total number of rows");
-    } catch (IllegalArgumentException e) {
-      assertEquals(
-          "Parameters for row and column may not exceed the maximum number of rows and columns",
-          e.getMessage());
-    }
-  }
-
-  @Test
   public void isAlive_whenColIsNegative_throwsException() {
     try {
-      newWorld().isCellAlive(0, -1);
+      newWorld().isCellAlive(-1, 0);
       fail("Parameter for column is negative");
     } catch (IllegalArgumentException e) {
-      assertEquals("Number of row and column may not be negative", e.getMessage());
+      assertEquals("Number of column and row may not be negative", e.getMessage());
     }
   }
 
   @Test
   public void isAlive_whenColIsTooLarge_throwsException() {
     try {
-      newWorld().isCellAlive(0, WORLD_TOTAL_COLUMNS);
+      newWorld().isCellAlive(WORLD_TOTAL_COLUMNS, 0);
       fail("Parameter for column exceeds the total number of columns");
     } catch (IllegalArgumentException e) {
       assertEquals(
-          "Parameters for row and column may not exceed the maximum number of rows and columns",
+          "Parameters for column and row may not exceed the maximum number of columns and rows",
+          e.getMessage());
+    }
+  }
+
+  @Test
+  public void isAlive_whenRowIsNegative_throwsException() {
+    try {
+      newWorld().isCellAlive(0, -1);
+      fail("Parameter for row is negative");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Number of column and row may not be negative", e.getMessage());
+    }
+  }
+
+  @Test
+  public void isAlive_whenRowIsTooLarge_throwsException() {
+    try {
+      newWorld().isCellAlive(0, WORLD_TOTAL_ROWS);
+      fail("Parameter for row exceeds the total number of rows");
+    } catch (IllegalArgumentException e) {
+      assertEquals(
+          "Parameters for column and row may not exceed the maximum number of columns and rows",
+          e.getMessage());
+    }
+  }
+
+  @Test
+  public void setAlive_whenColumnIsNegative_throwsException() {
+    try {
+      newWorld().setCellAlive(-1, 0);
+      fail("Parameter for column is negative");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Number of column and row may not be negative", e.getMessage());
+    }
+  }
+
+  @Test
+  public void setAlive_whenColumnIsTooLarge_throwsException() {
+    try {
+      newWorld().setCellAlive(WORLD_TOTAL_COLUMNS, 0);
+      fail("Parameter for column is out of bounds");
+    } catch (IllegalArgumentException e) {
+      assertEquals(
+          "Parameters for column and row may not exceed the maximum number of columns and rows",
           e.getMessage());
     }
   }
@@ -109,43 +131,21 @@ public class GridTest {
   @Test
   public void setAlive_whenRowIsNegative_throwsException() {
     try {
-      newWorld().setCellAlive(-1, 0);
+      newWorld().setCellAlive(0, -1);
       fail("Parameter for row is negative");
     } catch (IllegalArgumentException e) {
-      assertEquals("Number of row and column may not be negative", e.getMessage());
+      assertEquals("Number of column and row may not be negative", e.getMessage());
     }
   }
 
   @Test
   public void setAlive_whenRowIsTooLarge_throwsException() {
     try {
-      newWorld().setCellAlive(WORLD_TOTAL_ROWS, 0);
-      fail("Parameter for rows is out of bounds");
+      newWorld().setCellAlive(0, WORLD_TOTAL_ROWS);
+      fail("Parameter for row is out of bounds");
     } catch (IllegalArgumentException e) {
       assertEquals(
-          "Parameters for row and column may not exceed the maximum number of rows and columns",
-          e.getMessage());
-    }
-  }
-
-  @Test
-  public void setAlive_whenColIsNegative_throwsException() {
-    try {
-      newWorld().setCellAlive(0, -1);
-      fail("Parameter for col is negative");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Number of row and column may not be negative", e.getMessage());
-    }
-  }
-
-  @Test
-  public void setAlive_whenColIsTooLarge_throwsException() {
-    try {
-      newWorld().setCellAlive(0, WORLD_TOTAL_COLUMNS);
-      fail("Parameter for column is out of bounds");
-    } catch (IllegalArgumentException e) {
-      assertEquals(
-          "Parameters for row and column may not exceed the maximum number of rows and columns",
+          "Parameters for column and row may not exceed the maximum number of columns and rows",
           e.getMessage());
     }
   }
@@ -159,7 +159,7 @@ public class GridTest {
 
     Grid world = newWorld();
     for (Cell cell : cells) {
-      world.setCellAlive(cell.getRow(), cell.getColumn());
+      world.setCellAlive(cell.getColumn(), cell.getRow());
     }
 
     worldIsExactly(world, cells);
@@ -167,35 +167,35 @@ public class GridTest {
 
   @Test
   public void resize_whenSizeIsValid_resizes() {
-    int newRowSize = 3;
     int newColumnSize = 5;
+    int newRowSize = 3;
 
-    Grid world = newWorld(WORLD_TOTAL_ROWS, WORLD_TOTAL_COLUMNS);
-    world.resize(newRowSize, newColumnSize);
+    Grid world = newWorld(WORLD_TOTAL_COLUMNS, WORLD_TOTAL_ROWS);
+    world.resize(newColumnSize, newRowSize);
 
-    assertEquals(world.getRows(), newRowSize);
     assertEquals(world.getColumns(), newColumnSize);
+    assertEquals(world.getRows(), newRowSize);
   }
 
   @Test
   public void resize_always_keepsCellsInRange() {
     Set<Cell> cells = new HashSet<>();
     addCell(cells, 1, 1);
-    addCell(cells, 2, 0);
-    addCell(cells, 1, 2);
-    addCell(cells, 2, 4);
-    addCell(cells, 3, 4);
+    addCell(cells, 0, 2);
+    addCell(cells, 2, 1);
+    addCell(cells, 4, 2);
+    addCell(cells, 4, 3);
     addCell(cells, 4, 4);
 
-    int newRowSize = 3;
     int newColumnSize = 5;
+    int newRowSize = 3;
 
     Grid world = newWorld(cells);
 
-    world.resize(newRowSize, newColumnSize);
+    world.resize(newColumnSize, newRowSize);
 
     // cells that are out of range are deleted.
-    removeCell(cells, 3, 4);
+    removeCell(cells, 4, 3);
     removeCell(cells, 4, 4);
 
     worldIsExactly(world, cells);
@@ -303,12 +303,12 @@ public class GridTest {
 
   private void worldIsExactly(Grid world, Set<Cell> cells) {
     for (Cell activeCell : cells) {
-      assertTrue(world.isCellAlive(activeCell.getRow(), activeCell.getColumn()),
+      assertTrue(world.isCellAlive(activeCell.getColumn(), activeCell.getRow()),
           "Cell " + activeCell + " must be active");
     }
 
-    for (int x = 0; x < world.getRows(); x++) {
-      for (int y = 0; y < world.getColumns(); y++) {
+    for (int x = 0; x < world.getColumns(); x++) {
+      for (int y = 0; y < world.getRows(); y++) {
         if (world.isCellAlive(x, y)) {
           Cell cell = new Cell(x, y);
           assertTrue(cells.contains(cell), "Cell " + cell + " must not be active");
@@ -317,4 +317,3 @@ public class GridTest {
     }
   }
 }
-
