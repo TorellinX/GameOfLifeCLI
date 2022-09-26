@@ -361,7 +361,7 @@ class Shell {
       System.out.println("Available Shapes are: \n" + getAvailableShapes());
       return;
     }
-    if (shape.getColumns() > game.getColumns() || shape.getRows() < shape.getRows()) {
+    if (shape.getColumns() > game.getColumns() || shape.getRows() > game.getRows()) {
       displayError("The size of the shape may not exceed the size of the game field. \nThe shape \""
           + shapeName.substring(0, 1).toUpperCase() + shapeName.substring(1) + "\" requires min. "
           + shape.getColumns() + "x" + shape.getRows() + " field.");
