@@ -236,4 +236,4 @@ Stream<Integer> numberStream = // .. snip ..;
 List<Integer> numberList = numberStream.collect(Collectors.toList());
 ```
 
-
+©2022, SoSy-Lab
